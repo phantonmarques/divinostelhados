@@ -1,0 +1,78 @@
+@font-face {
+	font-family: "Flaticon";
+	src: url("./flaticon.eot");
+	src: url("./flaticon.eot?#iefix") format("embedded-opentype"),
+		url("./flaticon.woff2") format("woff2"),
+		url("./flaticon.woff") format("woff"),
+		url("./flaticon.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="flaticon-"]:before,
+[class*=" flaticon-"]:before,
+[class^="flaticon-"]:after,
+[class*=" flaticon-"]:after {
+	font-family: Flaticon;
+	font-size: 20px;
+	font-style: normal;
+	margin-left: 0;
+}
+
+.flaticon-roof-1:before {
+	content: "\f100";
+}
+.flaticon-joist:before {
+	content: "\f101";
+}
+
+.flaticon-3d:before {
+	content: "\f103";
+}
+
+.flaticon-broken-house:before {
+	content: "\f104";
+}
+
+.flaticon-joist-1:before {
+	content: "\f106";
+}
+
+.flaticon-home:before {
+	content: "\f108";
+}
+
+.flaticon-clipboard:before {
+	content: "\f109";
+}
+
+.flaticon-calculator:before {
+	content: "\f10a";
+}
+
+.flaticon-clock:before {
+	content: "\f10b";
+}
+
+.flaticon-chill:before {
+	content: "\f10c";
+}
+
+.flaticon-roof:before {
+	content: "\f102";
+}
+.flaticon-roof-2:before {
+	content: "\f105";
+}
+.flaticon-roof-3:before {
+	content: "\f107";
+}
+.flaticon-roof-4:before {
+	content: "\f10d";
+}
+.flaticon-roof-5:before {
+	content: "\f10e";
+}
+.flaticon-roof-6:before {
+	content: "\f10f";
+}

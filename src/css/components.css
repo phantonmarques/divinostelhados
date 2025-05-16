@@ -1,0 +1,485 @@
+/** Containers */
+
+.container-main {
+	max-width: 1490px;
+	margin: 0 auto;
+}
+
+.container {
+	max-width: 1180px;
+	margin: 0 auto;
+}
+
+/** Buttons Default */
+
+.btn-default {
+	background-image: linear-gradient(
+		180deg,
+		var(--color-primary-1) 0%,
+		var(--color-primary-3) 100%
+	);
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+	border: none;
+	color: var(--color-secondary-1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 12px 20px;
+	border-radius: 12px;
+	font-size: 1rem;
+	font-weight: 500;
+	transition: all 0.3s ease-in-out;
+}
+
+.btn-default:hover {
+	background-image: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--color-primary-1) 80%, var(--color-secondary-1)) 0%,
+		color-mix(in srgb, var(--color-primary-3) 80%, var(--color-secondary-1))
+			100%
+	);
+	color: var(--color-secondary-5);
+	transform: scale(1.05);
+	box-shadow: 0 0 8px 2px var(--color-primary-4);
+	animation: boxShadowEffect 2s linear infinite;
+}
+
+.btn-default .fas {
+	font-size: 1rem;
+	margin-left: 8px;
+	opacity: 0;
+	transform: translateX(-10px);
+	transition: all 0.3s ease-in-out;
+	display: none;
+}
+
+.btn-default:hover .fas {
+	display: inline-block;
+	animation: fadeInMove 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeInMove {
+	0% {
+		opacity: 0;
+		transform: translateX(-20px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes boxShadowEffect {
+	0% {
+		box-shadow: 0 0 1rem 2px var(--color-primary-4);
+	}
+	100% {
+		box-shadow: 0 0 8px 2px var(--color-primary-4);
+	}
+}
+
+/** Lazy Loading Images */
+
+.lazy-load {
+	opacity: 0;
+	transition: opacity 0.3s ease-in;
+}
+
+.lazy-loaded {
+	opacity: 1;
+}
+
+/** Title and Subtitle Default */
+
+.subtitle-default {
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: 0.1rem;
+	text-transform: uppercase;
+	margin-bottom: 20px;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.subtitle-default:before {
+	content: "";
+	display: inline-block;
+	background-color: var(--color-primary-1);
+	margin-right: 12px;
+	border-radius: 12px;
+	width: 40px;
+	height: 4px;
+}
+
+.title-default {
+	font-size: 2.5rem;
+	font-weight: 800;
+	line-height: 1.2;
+	margin-bottom: 40px;
+	max-width: 20ch;
+}
+
+.title-default.dark {
+	color: var(--color-secondary-1);
+}
+
+.subtitle-default.dark {
+	color: var(--color-secondary-2);
+}
+
+.subtitle-default.light,
+.title-default.light {
+	color: var(--color-secondary-5);
+}
+
+/** Components External */
+
+/* Swiper */
+
+.swiper-container {
+	margin-bottom: 80px;
+}
+
+.swiper {
+	height: 100%;
+	max-height: 100vw;
+	min-height: 0;
+	min-width: 0;
+	max-width: 100%;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+.swiper-custom-button-next,
+.swiper-custom-button-prev {
+	background-color: var(--color-primary-1);
+	padding: 1rem;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	position: absolute;
+	right: 0;
+	transition: all 0.3s ease-in-out;
+}
+
+.swiper-custom-button-next {
+	top: calc(50% + 28px);
+}
+
+.swiper-custom-button-prev {
+	top: calc(50% - 28px);
+}
+
+.swiper-custom-button-next::before,
+.swiper-custom-button-prev::before {
+	content: "";
+	position: absolute;
+	height: 100px;
+	width: 1px;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.swiper-custom-button-next::before {
+	bottom: -120px;
+}
+
+.swiper-custom-button-prev::before {
+	top: -120px;
+}
+
+.swiper-custom-button-next::after,
+.swiper-custom-button-prev::after {
+	content: "";
+	border: solid var(--color-secondary-5);
+	border-width: 0 2px 2px 0;
+	display: inline-block;
+	padding: 6px;
+}
+
+.swiper-custom-button-next::after {
+	transform: rotate(45deg);
+}
+
+.swiper-custom-button-prev::after {
+	transform: rotate(-135deg);
+}
+
+.swiper-custom-button-prev:hover,
+.swiper-custom-button-next:hover {
+	background-color: color-mix(
+		in srgb,
+		var(--color-primary-1) 80%,
+		var(--color-secondary-1)
+	);
+}
+*/
+
+/** Whatsapp Fixed */
+
+.whatsapp-container .whatsapp {
+	position: fixed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--color-primary-4);
+	border-radius: 50%;
+	bottom: 20px;
+	right: 20px;
+	height: 48px;
+	width: 48px;
+	z-index: 3;
+}
+
+.whatsapp-container .whatsapp svg {
+	height: 36px;
+	width: auto;
+	fill: color-mix(in srgb, var(--color-primary-1) 80%, black 20%);
+}
+
+.whatsapp-container .whatsapp::before {
+	content: "";
+	position: absolute;
+	border: 5px solid var(--color-primary-5);
+	border-radius: 50%;
+	padding: 24px;
+	opacity: 0.75;
+	animation: pulse-border 1.5s ease-out infinite;
+}
+
+@keyframes pulse-border {
+	0% {
+		padding: 28px;
+		opacity: 0.75;
+	}
+	75% {
+		padding: 36px;
+		opacity: 0;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+/** Contact Form 7 */
+
+.wpcf7 form.sent .wpcf7-response-output {
+	border-color: #46b450 !important;
+	background-color: #46b450 !important;
+	color: var(--color-secondary-1) !important;
+	border-radius: 8px !important;
+	padding: 12px !important;
+	text-align: center !important;
+	font-weight: 700 !important;
+}
+
+.grecaptcha-badge {
+	visibility: hidden !important;
+	opacity: 0 !important;
+}
+
+.recaptcha-message {
+	font-size: 12px;
+	margin: 12px 0;
+	text-align: center;
+	opacity: 0.6;
+}
+
+.recaptcha-message a {
+	color: var(--color-secondary-3);
+	text-decoration: underline;
+}
+
+/** Animation */
+
+.animated.animate-fade-in {
+	animation-name: fadeIn;
+	animation-duration: 3s;
+	animation-fill-mode: both;
+}
+
+.animated.animate-fade-in-down {
+	animation-name: fadeInDown;
+	animation-duration: 1s;
+	animation-fill-mode: both;
+}
+
+.animated.animate-fade-in-left {
+	animation-name: fadeInLeft;
+	animation-duration: 1s;
+	animation-fill-mode: both;
+}
+
+.animated.animate-fade-in-right {
+	animation-name: fadeInRight;
+	animation-duration: 1s;
+	animation-fill-mode: both;
+}
+
+.animated.animate-fade-in-up {
+	animation-name: fadeInUp;
+	animation-duration: 1s;
+	animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeInDown {
+	from {
+		opacity: 0;
+		transform: translate3d(0, -100%, 0);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes fadeInLeft {
+	from {
+		opacity: 0;
+		transform: translate3d(-100%, 0, 0);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes fadeInRight {
+	from {
+		opacity: 0;
+		transform: translate3d(100%, 0, 0);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translate3d(0, 100%, 0);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/** 
+  * Media Queries 
+*/
+
+@media (max-width: 1200px) {
+	/** Containers */
+	.container,
+	.container-main {
+		max-width: 100%;
+		padding-left: 20px !important;
+		padding-right: 20px !important;
+	}
+
+	/** Title and Subtitle Default */
+
+	.title-default {
+		font-size: 2rem;
+	}
+
+	.subtitle-default {
+		font-size: 1rem;
+		margin-bottom: 16px;
+	}
+
+	.subtitle-default:before {
+		width: 20px;
+		height: 3px;
+	}
+}
+
+@media (max-width: 768px) {
+	/** Title and Subtitle Default */
+	.title-default {
+		font-size: 1.25rem;
+		margin-bottom: 20px;
+		max-width: 96%;
+	}
+
+	.subtitle-default {
+		font-size: 0.75rem;
+		margin-bottom: 8px;
+	}
+
+	/** Buttons Default */
+
+	.btn-default {
+		font-size: 0.75rem;
+		padding: 12px 20px;
+	}
+
+	/** Swiper */
+
+	.swiper-container {
+		margin-bottom: 20px;
+	}
+
+	.swiper {
+		padding-bottom: 80px !important;
+	}
+
+	.swiper-custom-button-next,
+	.swiper-custom-button-prev {
+		left: 50%;
+		right: auto;
+		top: calc(100% - 60px);
+		transform: translateX(-50%);
+	}
+
+	.swiper-custom-button-next {
+		left: calc(50% + 28px);
+	}
+
+	.swiper-custom-button-prev {
+		left: calc(50% - 28px);
+	}
+
+	.swiper-custom-button-next::before,
+	.swiper-custom-button-prev::before {
+		height: 1px;
+		width: 20vw;
+		top: 23px;
+	}
+
+	.swiper-custom-button-next::before {
+		right: -120px;
+	}
+	.swiper-custom-button-prev::before {
+		left: -120px;
+	}
+
+	.swiper-custom-button-next::after {
+		transform: rotate(-45deg);
+	}
+
+	.swiper-custom-button-prev::after {
+		transform: rotate(135deg);
+	}
+}
+
+@media (max-width: 340px) {
+	.swiper-custom-button-next,
+	.swiper-custom-button-prev {
+		display: none;
+	}
+}

@@ -1,0 +1,15 @@
+/**
+    * @file style.css
+    * @description CSS file for the project.
+    * @author Daniel Cabredo
+    * @date 2025-05-03
+    */
+
+@import "./variables.css";
+@import "./base.css";
+@import "./colors.css";
+@import "./components.css";
+
+@import "./header.css";
+@import "./main.css";
+@import "./footer.css";

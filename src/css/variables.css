@@ -1,0 +1,16 @@
+:root {
+	--color-primary-1: #d3510b;
+	--color-primary-2: #db7037;
+	--color-primary-3: #e18a5a;
+	--color-primary-4: #e69f79;
+	--color-primary-5: #eab091;
+	--color-primary-6: #eebea5;
+	--color-secondary-1: #0c0c0c;
+	--color-secondary-2: #525252;
+	--color-secondary-3: #a3a3a3;
+	--color-secondary-4: #cccccc;
+	--color-secondary-5: #ffffff;
+	--color-divider: #323232;
+	--font-family-primary: "Inter", sans-serif;
+	--font-family-secondary: "Roboto", sans-serif;
+}
