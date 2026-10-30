@@ -37,7 +37,7 @@
 	max-width: 22ch;
 }
 
-.introduction-content h2 {
+.introduction-content span {
 	color: var(--color-primary-5);
 	font-size: 1.5rem;
 	font-weight: 700;
@@ -250,7 +250,7 @@
 .services-list .item .item-icon i::before {
 	font-size: 3rem;
 	color: var(--color-primary-1);
-	opacity: 0.4;
+	opacity: 1;
 	position: relative;
 	transition: all 0.3s ease-in-out;
 }
@@ -259,7 +259,7 @@
 	font-size: 2rem;
 	font-family: var(--font-family-secondary);
 	color: var(--color-primary-1);
-	opacity: 0.4;
+	opacity: 1;
 }
 
 .services-list .item:hover:after {
@@ -535,7 +535,7 @@
 }
 
 .contact .date {
-	color: var(--color-secondary-3);
+	color: var(--color-secondary-1);
 	display: inline-block;
 	font-family: var(--font-family-secondary);
 	font-size: 0.9rem;
@@ -682,7 +682,7 @@
 	max-width: max-content;
 }
 
-.blog h3 {
+.blog span {
 	font-size: 1rem;
 	font-weight: 700;
 	letter-spacing: 0.1rem;
