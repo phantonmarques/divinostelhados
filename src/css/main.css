@@ -4,6 +4,10 @@
 	position: relative;
 }
 
+.introduction-image picture {
+	display: block;
+}
+
 .introduction-image img {
 	max-height: 700px;
 	width: 100%;
@@ -37,7 +41,7 @@
 	max-width: 22ch;
 }
 
-.introduction-content span {
+.introduction-subtitle {
 	color: var(--color-primary-5);
 	font-size: 1.5rem;
 	font-weight: 700;
@@ -94,7 +98,7 @@
 	padding: 28px;
 }
 
-.services-types .content h3 {
+.services-types .content h2 {
 	color: var(--color-secondary-1);
 	font-size: 1.25rem;
 	font-weight: 700;
@@ -102,7 +106,7 @@
 	position: relative;
 }
 
-.services-types .content h3:after {
+.services-types .content h2:after {
 	content: "";
 	position: absolute;
 	border-radius: 12px;
@@ -143,7 +147,7 @@
 	padding: 80px 0;
 }
 
-.about .info p {
+.about .info p:not(:where(.subtitle-default)) {
 	color: var(--color-secondary-2);
 	font-size: 1rem;
 	line-height: 1.75;
@@ -213,7 +217,7 @@
 	transition: all 0.4s ease-in-out;
 }
 
-.services-list .item h4 {
+.services-list .item h3 {
 	font-size: 1rem;
 	font-weight: 700;
 	margin-bottom: 40px;
@@ -221,7 +225,7 @@
 	position: relative;
 }
 
-.services-list .item h4:after {
+.services-list .item h3:after {
 	content: "";
 	position: absolute;
 	border-radius: 12px;
@@ -250,7 +254,7 @@
 .services-list .item .item-icon i::before {
 	font-size: 3rem;
 	color: var(--color-primary-1);
-	opacity: 1;
+	opacity: 0.4;
 	position: relative;
 	transition: all 0.3s ease-in-out;
 }
@@ -259,7 +263,7 @@
 	font-size: 2rem;
 	font-family: var(--font-family-secondary);
 	color: var(--color-primary-1);
-	opacity: 1;
+	opacity: 0.4;
 }
 
 .services-list .item:hover:after {
@@ -267,11 +271,11 @@
 	background-color: color-mix(in srgb, var(--color-primary-1) 80%, black 30%);
 }
 
-.services-list .item:hover h4,
+.services-list .item:hover h3,
 .services-list .item:hover p,
 .services-list .item:hover .item-icon i::before,
 .services-list .item:hover .item-icon span,
-.services-list .item:active h4,
+.services-list .item:active h3,
 .services-list .item:active p,
 .services-list .item:active .item-icon i::before,
 .services-list .item:active .item-icon span {
@@ -280,8 +284,8 @@
 	z-index: 1;
 }
 
-.services-list .item:hover h4:after,
-.services-list .item:active h4:after {
+.services-list .item:hover h3:after,
+.services-list .item:active h3:after {
 	background-color: var(--color-secondary-5);
 }
 
@@ -327,7 +331,7 @@
 	padding: 60px 40px;
 }
 
-.reason .card p {
+.reason .card p:not(:where(.subtitle-default)) {
 	color: var(--color-secondary-2);
 	font-family: var(--font-family-secondary);
 	margin-bottom: 20px;
@@ -445,11 +449,13 @@
 	opacity: 1;
 }
 
-.statistics-list .item h3 {
+.statistics-list .item .statistics-value {
 	display: flex;
+	font-size: 1.17em;
+	font-weight: 700;
 }
 
-.statistics-list .item h3 .counter {
+.statistics-list .item .statistics-value .counter {
 	font-size: 3rem;
 	font-weight: 700;
 	color: var(--color-secondary-1);
@@ -457,7 +463,7 @@
 	transition: all 0.3s ease-in-out;
 }
 
-.statistics-list .item h3 .sufix {
+.statistics-list .item .statistics-value .sufix {
 	color: var(--color-primary-1);
 	font-size: 2rem;
 	font-weight: 700;
@@ -535,7 +541,7 @@
 }
 
 .contact .date {
-	color: var(--color-secondary-1);
+	color: var(--color-secondary-3);
 	display: inline-block;
 	font-family: var(--font-family-secondary);
 	font-size: 0.9rem;
@@ -682,7 +688,7 @@
 	max-width: max-content;
 }
 
-.blog span {
+.blog .container .blog-subtitle {
 	font-size: 1rem;
 	font-weight: 700;
 	letter-spacing: 0.1rem;
@@ -771,7 +777,7 @@
 	color: var(--color-primary-1);
 }
 
-.blog-list .item .content h4 {
+.blog-list .item .content h3 {
 	color: var(--color-secondary-1);
 	font-size: 1.5rem;
 	font-weight: 700;
@@ -823,6 +829,122 @@
 
 .blog-list .item .content a:hover {
 	color: var(--color-primary-1);
+}
+
+/** Instagram */
+
+.reels {
+	background-color: var(--color-secondary-5);
+	padding: clamp(40px, 6vw, 80px) 0;
+}
+
+.reels .subtitle-default {
+	justify-content: center;
+}
+
+.reels .title-default {
+	margin-inline: auto;
+	text-align: center;
+}
+
+.reels .instagram-gallery-feed .swiper-container {
+	--swiper-pagination-bullet-inactive-opacity: 0.65;
+
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 0;
+	padding-bottom: 32px;
+}
+
+.reels .instagram-gallery-item__media-wrap {
+	background-color: var(--color-secondary-1);
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.reels .instagram-gallery-item__media-mask {
+	--qligg-mask-bg: color-mix(
+		in srgb,
+		var(--color-secondary-1) 40%,
+		transparent
+	);
+}
+
+/* O plugin remove os contornos de foco com !important. */
+.reels
+	.instagram-gallery-item:focus-visible
+	.instagram-gallery-item__media-wrap {
+	outline: 3px solid var(--color-primary-4) !important;
+	outline-offset: -3px;
+}
+
+.reels .instagram-gallery-feed .swiper-pagination {
+	--qligg-carousel-pagination-color: var(--color-secondary-2);
+
+	bottom: 4px;
+	padding-block: 4px;
+}
+
+.reels .swiper-pagination-bullet-active {
+	--qligg-carousel-pagination-color: var(--color-primary-1);
+}
+
+.reels .instagram-gallery-feed :is(.swiper-button-prev, .swiper-button-next) {
+	--qligg-carousel-arrow-color: var(--color-secondary-1);
+	--swiper-navigation-size: 16px;
+
+	width: 44px;
+	height: 44px;
+	margin-top: 0;
+	top: calc(50% - 16px);
+	transform: translateY(-50%);
+	border-radius: 50%;
+	background-color: var(--color-primary-1);
+	box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
+}
+
+.reels
+	.instagram-gallery-feed
+	:is(.swiper-button-prev, .swiper-button-next):hover {
+	background-color: var(--color-primary-3);
+}
+
+.reels
+	.instagram-gallery-feed
+	:is(.swiper-button-prev, .swiper-button-next)
+	svg {
+	width: var(--swiper-navigation-size);
+	height: var(--swiper-navigation-size);
+}
+
+.reels .instagram-gallery-feed .instagram-gallery__actions {
+	display: flex;
+	justify-content: center;
+	margin: 20px 0 0;
+}
+
+.reels .instagram-gallery-feed .instagram-gallery__button--follow {
+	font-size: 1.25rem;
+	font-weight: 700;
+	padding: 12px 60px;
+	margin: 0 auto;
+	text-transform: uppercase;
+}
+
+.reels .instagram-gallery__button--follow > i {
+	font-size: 1.25rem;
+	line-height: 1;
+}
+
+.reels
+	:is(
+		.instagram-gallery__button--follow,
+		.swiper-button-prev,
+		.swiper-button-next,
+		.swiper-pagination-bullet
+	):focus-visible {
+	outline: 2px solid var(--color-secondary-1) !important;
+	outline-offset: 2px;
 }
 
 /** Blog Post */
@@ -1060,7 +1182,7 @@ main.blog-page #loading {
 	.introduction-content h1 {
 		font-size: 2.75rem;
 	}
-	.introduction-content h2 {
+	.introduction-subtitle {
 		font-size: 1.25rem;
 	}
 	.introduction-content a {
@@ -1088,7 +1210,7 @@ main.blog-page #loading {
 		font-size: 1.5rem;
 		max-width: 40ch;
 	}
-	.introduction-content h2 {
+	.introduction-subtitle {
 		font-size: 1rem;
 	}
 	.introduction-content a {
@@ -1112,13 +1234,13 @@ main.blog-page #loading {
 		justify-content: center;
 	}
 
-	.services-types .content h3 {
+	.services-types .content h2 {
 		font-size: 1rem;
 	}
 
 	/** About */
 
-	.about .info p {
+	.about .info p:not(:where(.subtitle-default)) {
 		font-size: 1rem;
 		line-height: 1.5;
 	}
@@ -1183,7 +1305,7 @@ main.blog-page #loading {
 		margin-bottom: 20px;
 	}
 
-	.reason .card p {
+	.reason .card p:not(:where(.subtitle-default)) {
 		line-height: 1.5;
 	}
 
@@ -1238,8 +1360,9 @@ main.blog-page #loading {
 		padding: 20px 0;
 	}
 
-	.blog h3 {
+	.blog .container .blog-subtitle {
 		font-size: 0.75rem;
+		text-align: center;
 	}
 
 	.blog h2 {

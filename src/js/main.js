@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	// Function to handle the mobile menu toggle
 	const menuIcon = document.querySelector(".menu-icon");
 	const menuSidebar = document.querySelector(".menu-sidebar");
-	const menuLinks = document.querySelectorAll(".menu-mobile a");
 
 	const closeMenu = () => {
 		menuIcon.classList.remove("active");
@@ -17,43 +16,33 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 
 	menuIcon.addEventListener("click", () => {
-		const isActive = menuIcon.classList.toggle("active");
-		menuSidebar.classList.toggle("active");
-
-		if (isActive) {
-			setTimeout(() => {
-				document.addEventListener("click", outsideClickListener);
-			}, 10);
-
+		if (menuIcon.classList.contains("active")) {
+			closeMenu();
 			return;
 		}
 
-		document.removeEventListener("click", outsideClickListener);
+		menuIcon.classList.add("active");
+		menuSidebar.classList.add("active");
+		document.addEventListener("click", outsideClickListener);
 	});
 
-	menuLinks.forEach((link) => {
-		link.addEventListener("click", closeMenu);
+	menuSidebar.addEventListener("click", ({ target }) => {
+		if (target.closest("a")) closeMenu();
 	});
 
-	// Function to handle the header fixed class
-	function handleHeaderFixed() {
-		const header = document.querySelector("header");
-
-		if (!header) return;
-
-		header.classList.remove("initial");
-
-		const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-		if (scrollTop > 100) {
-			header.classList.add("fixed");
-		} else {
-			header.classList.remove("fixed");
+	const header = document.querySelector("header");
+	header?.classList.remove("initial");
+	let headerFixed;
+	const updateHeader = () => {
+		const fixed = window.scrollY > 100;
+		if (fixed !== headerFixed) {
+			header?.classList.toggle("fixed", fixed);
+			headerFixed = fixed;
 		}
-	}
+	};
 
-	window.addEventListener("scroll", handleHeaderFixed);
-	handleHeaderFixed();
+	window.addEventListener("scroll", updateHeader, { passive: true });
+	updateHeader();
 
 	// Function to handle the phone number mask
 	const maskPhone = ({ target }) => {
@@ -178,21 +167,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 
 		// Function to handle the animation on scroll
-		const animate = document.querySelectorAll('[class*="animate-"]');
+		const animate = document.querySelectorAll('[class^="animate-"], [class*=" animate-"]');
 
 		if (animate.length) {
 			const animateObserver = new IntersectionObserver(
 				(entries, observer) => {
 					entries.forEach((entry) => {
-						const animationClasses = Array.from(entry.target.classList).filter(
-							(cls) => cls.startsWith("animate-")
-						);
-
 						if (entry.isIntersecting) {
-							animationClasses.forEach(() => {
-								entry.target.classList.add("animated");
-							});
-
+							entry.target.classList.add("animated");
 							observer.unobserve(entry.target);
 						}
 					});

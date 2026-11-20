@@ -108,7 +108,12 @@ header .container-main {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 28px 20px;
+	padding: 16px 20px;
+}
+
+header .logo img {
+	max-height: 120px;
+	width: auto;
 }
 
 nav .menu {
@@ -158,9 +163,9 @@ nav .menu-link:hover {
 		display: none;
 	}
 
-	header img {
+	header .logo img {
 		width: 100%;
-		max-width: 140px;
+		max-width: 80px;
 	}
 
 	nav {
