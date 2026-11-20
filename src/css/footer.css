@@ -13,6 +13,11 @@ footer {
 	position: relative;
 }
 
+.footer-social .logo img {
+	max-height: 110px;
+	width: auto;
+}
+
 .footer-social::after {
 	content: "";
 	position: absolute;
@@ -91,14 +96,14 @@ footer {
 	flex-wrap: wrap;
 }
 
-.footer-info h3 {
+.footer-info h2 {
 	font-size: 1.5rem;
 	font-weight: 600;
 	margin-bottom: 40px;
 	position: relative;
 }
 
-.footer-info h3::after {
+.footer-info h2::after {
 	content: "";
 	position: absolute;
 	bottom: -20px;
@@ -175,7 +180,7 @@ footer {
 		gap: 40px;
 	}
 
-	.footer-info h3 {
+	.footer-info h2 {
 		font-size: 1.25rem;
 	}
 

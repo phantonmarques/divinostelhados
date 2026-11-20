@@ -6,33 +6,20 @@
                 
                 the_post(); ?>
 
-                <?php if ( has_post_thumbnail() ) { 
-                    $postId = get_the_ID(); 
-                    $thumbUrl = get_post_thumbnail_id( $postId );
-                    $imageData = wp_get_attachment_image_src( $thumbUrl, 'large' ); 
-                    
-                    if ( $imageData ) { 
-                        $thumb_url = $imageData[0]; 
-                        $width = $imageData[1]; 
-                        $height = $imageData[2]; 
-                        $alt = get_post_meta( $thumbUrl, '_wp_attachment_image_alt', true ); 
-                        
-                        if ( empty( $alt ) ) { 
-                            $alt = get_the_title( $postId ); 
-                        } ?>
-                        <section class="banner-highlight" id="post-<?php echo $postId ?>" <?php post_class(); ?> aria-label="Imagem do post">
-                            <div class="image-wrapper">
-                                <img
-                                    class="animate-fade-in-down"
-                                    src="<?php echo esc_url( $thumb_url ); ?>"
-                                    width="<?php echo esc_attr( $width ); ?>"
-                                    height="<?php echo esc_attr( $height ); ?>"
-                                    alt="<?php echo esc_attr( $alt ); ?>"
-                                >
-                            </div>
+                <?php
+                    $thumbnail_id = get_post_thumbnail_id();
+                    $thumbnail = $thumbnail_id ? wp_get_attachment_image($thumbnail_id, 'large', false, [
+                        'alt' => get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true) ?: get_the_title(),
+                        'class' => 'animate-fade-in-down',
+                        'loading' => 'eager',
+                        'fetchpriority' => 'high',
+                    ]) : '';
+
+                    if ($thumbnail) { ?>
+                        <section class="banner-highlight" id="post-<?php the_ID(); ?>" <?php post_class(); ?> aria-label="Imagem do post">
+                            <div class="image-wrapper"><?php echo $thumbnail; ?></div>
                         </section>
-                    <?php }
-                } ?>
+                    <?php } ?>
            
                 <article class="container" aria-label="<?php the_title(); ?>">
                     <div class="header">
@@ -49,7 +36,7 @@
                                 }
                             }
                         ?>
-                        <?php 
+                        <?php
                             $date = new DateTime(get_the_date('Y-m-d'));
                             $formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
                         ?>

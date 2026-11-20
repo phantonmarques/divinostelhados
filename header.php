@@ -47,7 +47,9 @@
     <header class="initial<?php if ( ! is_front_page() ) echo ' page'; ?>" aria-label="Menu">
         <div class="container-main">
             <a class="logo animate-fade-in-left" href="/">
-                <img src="<?php echo get_template_directory_uri(); ?>/dist/images/logo.svg" width="292" height="57" alt="Logo">
+                <img src="<?php echo esc_url(get_template_directory_uri() . '/dist/images/logo-delivery-120.webp'); ?>"
+                     srcset="<?php echo esc_attr(roof_webp_srcset('logo-delivery', [120, 144, 168, 200, 240, 360])); ?>"
+                     sizes="(max-width: 768px) 80px, 120px" width="120" height="120" alt="Logo">
             </a>
             <nav class="animate-fade-in">
                 <?php

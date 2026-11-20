@@ -43,42 +43,113 @@ add_action('wp_enqueue_scripts', function() {
 
 /** Scripts Tema */
 function roof_scripts() {
-    $css_main = get_template_directory() . '/dist/css/style.min.css';
+    $directory = get_template_directory();
+    $uri = get_template_directory_uri();
+    $is_home = is_front_page();
+    $css_main = $directory . '/dist/css/style.min.css';
+    $inline_css = $is_home && is_readable($css_main) ? file_get_contents($css_main) : false;
 
-    wp_enqueue_style('roof-styles', get_template_directory_uri() . '/dist/css/style.min.css', [], filemtime($css_main));
-    wp_enqueue_script('roof-scripts', get_template_directory_uri() . '/dist/js/main.min.js', [], filemtime(get_template_directory() . '/dist/js/main.min.js'), true);
+    if ($inline_css !== false && $inline_css !== '') {
+        // Resolve as URLs de fundo a partir do tema, pois o CSS fica no HTML.
+        $image_base = esc_url_raw($uri . '/dist/images/');
+        $inline_css = str_replace('url(../images/', 'url(' . $image_base, $inline_css);
+
+        wp_register_style('roof-styles', false);
+        wp_enqueue_style('roof-styles');
+        wp_add_inline_style('roof-styles', $inline_css);
+    } else {
+        wp_enqueue_style('roof-styles', $uri . '/dist/css/style.min.css', [], filemtime($css_main));
+    }
+
+    $script_path = '/dist/js/main.min.js';
+    $script_file = $directory . $script_path;
+    $inline_script = $is_home && is_readable($script_file) ? file_get_contents($script_file) : false;
+
+    if ($inline_script !== false && $inline_script !== '') {
+        wp_register_script('roof-scripts', false, [], null, true);
+        wp_enqueue_script('roof-scripts');
+        wp_add_inline_script('roof-scripts', $inline_script);
+    } else {
+        wp_enqueue_script('roof-scripts', $uri . $script_path, [], filemtime($script_file), true);
+    }
 }
 
 add_action('wp_enqueue_scripts', 'roof_scripts');
 
+add_action('wp_enqueue_scripts', function () {
+    if (is_front_page()) {
+        // O WordPress aplica defer somente quando a cadeia permite.
+        wp_script_add_data('swv', 'strategy', 'defer');
+        wp_script_add_data('contact-form-7', 'strategy', 'defer');
+    }
+}, 100);
+
+add_filter('wp_script_attributes', function ($attributes) {
+    $form_scripts = ['wp-hooks-js', 'wp-i18n-js', 'swv-js', 'contact-form-7-js'];
+    if (!empty($attributes['src']) && in_array($attributes['id'] ?? '', $form_scripts, true) && is_front_page()) {
+        $attributes['fetchpriority'] = 'low';
+    }
+
+    return $attributes;
+});
+
+add_filter('style_loader_tag', function ($tag, $handle, $href, $media) {
+    if ($handle !== 'contact-form-7' || $media !== 'all' || !is_front_page() || !class_exists('WP_HTML_Tag_Processor')) {
+        return $tag;
+    }
+
+    $link = new WP_HTML_Tag_Processor($tag);
+    if (!$link->next_tag('link') || $link->get_attribute('rel') !== 'stylesheet' || $link->get_attribute('onload') !== null) {
+        return $tag;
+    }
+
+    $link->set_attribute('media', 'print');
+    $link->set_attribute('onload', "this.onload=null;this.media='all'");
+
+    return $link->get_updated_html() . '<noscript>' . $tag . '</noscript>';
+}, 10, 4);
+
 function home_scripts() {
     if (is_front_page()) {
-        wp_enqueue_script('roof-home-scripts', get_template_directory_uri() . '/dist/js/external.min.js', [], filemtime(get_template_directory() . '/dist/js/external.min.js'), true);
+        $directory = get_template_directory();
+        $uri = get_template_directory_uri();
+
+        wp_enqueue_script('roof-swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], null, false);
+        wp_enqueue_script('roof-home-scripts', $uri . '/dist/js/external.min.js', ['roof-swiper'], filemtime($directory . '/dist/js/external.min.js'), true);
     }
 }
 
 add_action('wp_enqueue_scripts', 'home_scripts');
 
 add_filter('script_loader_tag', function ($tag, $handle) {
-    if ($handle === 'roof-home-scripts') {
-        return str_replace('src=', 'defer src=', $tag);
+    if (in_array($handle, ['roof-swiper', 'roof-home-scripts'], true)) {
+        return str_replace('<script ', '<script defer ', $tag);
     }
     return $tag;
 }, 10, 2);
 
-function home_preload_scripts() {
+function roof_print_vendor_styles() {
+    $directory = get_template_directory();
+    $uri = get_template_directory_uri();
+    $flaticon = '/dist/vendor/flaticon/flaticon.css';
+    $fontawesome = '/dist/vendor/fontawesome-6.7.2/css/all.min.css';
     $vendor_styles = [
-        get_template_directory_uri() . '/dist/vendor/flaticon/flaticon.css',
-        get_template_directory_uri() . '/dist/vendor/fontawesome-6.7.2/css/all.min.css',
+        $uri . $flaticon . '?ver=' . filemtime($directory . $flaticon),
+        $uri . $fontawesome . '?ver=' . filemtime($directory . $fontawesome),
     ];
 
+    if (is_front_page()) {
+        $vendor_styles[] = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
+    }
+
     foreach ($vendor_styles as $href) {
+        $href = esc_url($href);
         echo "<link rel='preload' as='style' href='{$href}' onload=\"this.onload=null;this.rel='stylesheet'\">\n";
         echo "<noscript><link rel='stylesheet' href='{$href}'></noscript>\n";
     }
 }
 
-add_action('wp_head', 'home_preload_scripts');
+add_action('wp_head', 'roof_print_vendor_styles');
 
 /** Menu */
 
@@ -116,6 +187,25 @@ function add_class_to_menu_link($atts, $item, $args, $depth) {
 
 add_filter('nav_menu_link_attributes', 'add_class_to_menu_link', 10, 4);
 
+add_action('wp', function () {
+    if (!is_front_page()) {
+        return;
+    }
+
+    $path = '/dist/images/og-image.jpg';
+    $file = get_template_directory() . $path;
+    $image = is_readable($file) ? wp_getimagesize($file) : false;
+
+    if (!$image) {
+        return;
+    }
+
+    add_filter('wpseo_opengraph_image', fn() => get_template_directory_uri() . $path);
+    add_filter('wpseo_opengraph_image_width', fn() => $image[0]);
+    add_filter('wpseo_opengraph_image_height', fn() => $image[1]);
+    add_filter('wpseo_opengraph_image_type', fn() => $image['mime']);
+});
+
 
 /** Head */
 add_action('wp_head', function () { ?>
@@ -132,55 +222,78 @@ add_action('wp_head', function () { ?>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Merriweather:wght@900&display=swap">
     </noscript>
 
-    <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/dist/vendor/flaticon/flaticon.woff2" as="font" type="font/woff2" crossorigin>
-
-    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    </noscript>
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 <?php });
 
-function preload_main_lcp_image() {
-    if (is_front_page()) {
-        if (wp_is_mobile()) { ?>
-            <link 
-                rel="preload" 
-                as="image" 
-                href="<?php echo get_template_directory_uri(); ?>/dist/images/header-banner-500.webp"
-                type="image/webp"
-                fetchpriority="high"
-                importance="high"
-            />
-            <link 
-                rel="preload" 
-                as="image" 
-                href="<?php echo get_template_directory_uri(); ?>/dist/images/services-types/residential-roof.webp"
-                type="image/webp"
-                fetchpriority="high"
-                importance="high"
-            />
-        <?php } else { ?>    
-            <link 
-                rel="preload" 
-                as="image" 
-                href="<?php echo get_template_directory_uri(); ?>/dist/images/header-banner.webp" 
-                media="(min-width: 501px)"
-                imagesrcset="
-                    <?php echo get_template_directory_uri(); ?>/dist/images/header-banner-768.webp 768w,
-                    <?php echo get_template_directory_uri(); ?>/dist/images/header-banner-1200.webp 1200w,
-                    <?php echo get_template_directory_uri(); ?>/dist/images/header-banner.webp 2000w
-                "
-                imagesizes="100vw"
-                type="image/webp"
-            />
-        <?php } ?>
-        <link rel="preload" as="image" href="<?php echo get_template_directory_uri(); ?>/dist/images/background/reason.webp" type="image/webp">
-    <?php }
+function roof_webp_srcset($asset, $widths, $original_width = null) {
+    $base = get_template_directory_uri() . '/dist/images/' . $asset;
+    $candidates = [];
+
+    foreach ($widths as $width) {
+        $candidates[] = "{$base}-{$width}.webp {$width}w";
+    }
+
+    if ($original_width !== null) {
+        $candidates[] = "{$base}.webp {$original_width}w";
+    }
+
+    return implode(', ', $candidates);
 }
 
-add_action('wp_head', 'preload_main_lcp_image', 1);
+function roof_hero_image() {
+    $base = get_template_directory_uri() . '/dist/images/header-banner';
+    $mobile_widths = [288, 448, 576, 840];
+    $mobile_base = get_template_directory() . '/dist/images/header-banner-mobile';
+    $mobile_srcset = roof_webp_srcset('header-banner-mobile', $mobile_widths);
+
+    foreach ($mobile_widths as $width) {
+        if (!is_readable("$mobile_base-$width.webp")) {
+            $mobile_srcset = '';
+            break;
+        }
+    }
+
+    return [
+        'src' => $base . '.webp',
+        'srcset' => implode(', ', [
+            "$base-640.webp 640w",
+            "$base-optimized-768.webp 768w",
+            "$base-optimized-960.webp 960w",
+            "$base-1440.webp 1440w",
+            "$base-1920.webp 1920w",
+            "$base.webp 3000w",
+        ]),
+        'sizes' => '100vw',
+        'mobile_srcset' => $mobile_srcset,
+        'mobile_sizes' => '55vw',
+        'mobile_media' => '(max-width: 480px)',
+    ];
+}
+
+function roof_preload_hero_image() {
+    if (!is_front_page()) {
+        return;
+    }
+
+    $hero = roof_hero_image();
+    ?>
+    <?php if ($hero['mobile_srcset']) : ?>
+    <link rel="preload" as="image" type="image/webp" fetchpriority="high"
+          media="<?php echo esc_attr($hero['mobile_media']); ?>"
+          imagesrcset="<?php echo esc_attr($hero['mobile_srcset']); ?>"
+          imagesizes="<?php echo esc_attr($hero['mobile_sizes']); ?>">
+    <?php endif; ?>
+    <link rel="preload" as="image" type="image/webp" fetchpriority="high"
+          <?php if ($hero['mobile_srcset']) : ?>
+          media="<?php echo esc_attr('not all and ' . $hero['mobile_media']); ?>"
+          <?php endif; ?>
+          imagesrcset="<?php echo esc_attr($hero['srcset']); ?>"
+          imagesizes="<?php echo esc_attr($hero['sizes']); ?>">
+    <?php
+}
+
+add_action('wp_head', 'roof_preload_hero_image', 1);
+
+require_once __DIR__ . '/structured-data.php';
 
 
 /** Add functions WP */

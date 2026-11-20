@@ -3,48 +3,44 @@
 <main class="main-content">
     <section id="introduction" aria-label="Introdução">
         <div class="introduction-image">
-            <?php if (wp_is_mobile()) { ?>
-                <img 
-                    src="<?php echo get_template_directory_uri(); ?>/dist/images/header-banner-500.webp"
-                    width="500"
-                    height="335"
-                    alt="Especialista em reforma e construção de telhados em Brasília"
-                />
-            <?php } else { ?>
-                <img 
-                    src="<?php echo get_template_directory_uri(); ?>/dist/images/header-banner.webp"
-                    srcset="
-                        <?php echo get_template_directory_uri(); ?>/dist/images/header-banner-768.webp 768w,
-                        <?php echo get_template_directory_uri(); ?>/dist/images/header-banner-1200.webp 1200w,
-                        <?php echo get_template_directory_uri(); ?>/dist/images/header-banner.webp 2000w
-                    "
-                    sizes="(max-width: 768px) 100vw, 1200px"
-                    width="2000"
-                    height="1335"
-                    fetchpriority="high"
-                    decoding="async"
-                    alt="Especialista em reforma e construção de telhados em Brasília"
-                    style="will-change: transform; content-visibility: auto;"
-                />
-            <?php } ?>
+            <?php $hero = roof_hero_image(); ?>
+            <picture>
+                <?php if ($hero['mobile_srcset']) : ?>
+                <source type="image/webp" media="<?php echo esc_attr($hero['mobile_media']); ?>"
+                        srcset="<?php echo esc_attr($hero['mobile_srcset']); ?>"
+                        sizes="<?php echo esc_attr($hero['mobile_sizes']); ?>">
+                <?php endif; ?>
+                <img src="<?php echo esc_url($hero['src']); ?>"
+                     srcset="<?php echo esc_attr($hero['srcset']); ?>"
+                     sizes="<?php echo esc_attr($hero['sizes']); ?>"
+                     <?php if ($hero['mobile_srcset']) : ?>
+                     onerror="const source = this.previousElementSibling; if (source &amp;&amp; matchMedia(source.media).matches) source.remove();"
+                     <?php endif; ?>
+                     width="3000" height="2003" fetchpriority="high" loading="eager"
+                     alt="Especialista em reforma e construção de telhados em Brasília">
+            </picture>
         </div>
         <div class="introduction-content">
-            <h2 class="animate-fade-in-down">Atende Brasília e região</h2>
+            <p class="introduction-subtitle animate-fade-in-down">Atende Brasília e região</p>
             <h1 class="animate-fade-in">Especialistas em reforma e construção de telhados</h1>
             <a class="btn-default" rel="noopener noreferrer" target="_blank" href="https://wa.me/5561999963646">
                 Fale agora pelo WhatsApp
                 <i class="fas fa-chevron-right"></i>
             </a>
+        </div>
     </section>
     <section class="services-types" aria-label="Tipos de serviços">
         <div class="container">
             <ul class="list">
                 <li class="item <?php if (! wp_is_mobile()) { ?>animate-fade-in-left<?php } ?>">
                     <div>
-                        <img src="<?php echo get_template_directory_uri(); ?>/dist/images/services-types/residential-roof.webp" width="1" height="1" alt="Telhados Residenciais">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/dist/images/services-types/residential-roof-delivery-400.webp'); ?>"
+                             srcset="<?php echo esc_attr(roof_webp_srcset('services-types/residential-roof-delivery', [400, 544, 688, 800, 1100])); ?>"
+                             sizes="(width < 580px) max(391px, calc(100vw - 40px)), 391px"
+                             width="1100" height="619" fetchpriority="low" decoding="async" alt="Telhados Residenciais">
                     </div>
                     <div class="content">
-                        <h3>Telhados residenciais</h3>
+                        <h2>Telhados residenciais</h2>
                         <p>Soluções em telhados residenciais para conforto e segurança da sua família.</p>
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="300" height="46" viewBox="0 0 368 46">
                             <defs>
@@ -55,10 +51,13 @@
                 </li>
                 <li class="item <?php if (! wp_is_mobile()) { ?>animate-fade-in-right<?php } ?>">
                     <div>
-                        <img src="<?php echo get_template_directory_uri(); ?>/dist/images/services-types/comercial-roof.webp" width="1067" height="600" alt="Telhados Comerciais">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/dist/images/services-types/comercial-roof-delivery-400.webp'); ?>"
+                             srcset="<?php echo esc_attr(roof_webp_srcset('services-types/comercial-roof-delivery', [400, 544, 688, 800, 896])); ?>"
+                             sizes="(width < 580px) max(391px, calc(100vw - 40px)), 391px"
+                             width="896" height="504" fetchpriority="low" decoding="async" alt="Telhados Comerciais">
                     </div>
                     <div class="content">
-                        <h3>Telhados comerciais</h3>
+                        <h2>Telhados comerciais</h2>
                         <p>Soluções duráveis para telhados comerciais com agilidade e preço justo.</p>
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="300" height="46" viewBox="0 0 368 46">
                             <defs>
@@ -73,19 +72,28 @@
     <section class="about" aria-label="Sobre nós">
         <div class="container">
             <div class="info">
-                <h3 class="subtitle-default dark animate-fade-in-left">Quem somos</h3>
+                <p class="subtitle-default dark animate-fade-in-left">Quem somos</p>
                 <h2 class="title-default dark animate-fade-in-left">Estamos empenhados em oferecer serviços de qualidade</h2>
                 <p>Há mais de 25 anos, ajudamos moradores e empresários de Brasília a protegerem seus imóveis com telhados bem feitos, seguros e sem dor de cabeça. Seja para construir, reformar ou resolver problemas como goteiras e infiltrações, nossa equipe está pronta para atender com rapidez e preço justo. Valorizamos o bom atendimento, o trabalho bem-feito e a confiança de cada cliente. Conte com quem entende de telhado e tem história para contar.</p>
             </div>
             <div class="gallery">
                 <div class="item animate-fade-in">
-                    <img src="<?php echo get_template_directory_uri(); ?>/dist/images/about/about-1.webp" width="602" height="800" alt="Sobre nossa empresa 1">
+                    <img src="<?php echo esc_url(get_template_directory_uri() . '/dist/images/about/about-1-delivery-480.webp'); ?>"
+                         srcset="<?php echo esc_attr(roof_webp_srcset('about/about-1-delivery', [240, 360, 480, 602])); ?>"
+                         sizes="(width < 520px) calc(100vw - 40px), (max-width: 768px) calc(50vw - 30px), 218px"
+                         width="602" height="800" loading="lazy" decoding="async" alt="Sobre nossa empresa 1">
                 </div>
                 <div class="item animate-fade-in-right">
-                    <img src="<?php echo get_template_directory_uri(); ?>/dist/images/about/about-2.webp" width="500" height="375" alt="Sobre nossa empresa 2">
+                    <img src="<?php echo esc_url(get_template_directory_uri() . '/dist/images/about/about-2-delivery-480.webp'); ?>"
+                         srcset="<?php echo esc_attr(roof_webp_srcset('about/about-2-delivery', [272, 368, 480, 656, 752, 900])); ?>"
+                         sizes="(width < 520px) max(347px, calc(100vw - 40px)), (max-width: 768px) max(347px, calc(50vw - 30px)), 267px"
+                         width="900" height="675" loading="lazy" decoding="async" alt="Sobre nossa empresa 2">
                 </div>
                 <div class="item animate-fade-in-up">
-                    <img src="<?php echo get_template_directory_uri(); ?>/dist/images/about/about-3.webp" width="850" height="466" alt="Sobre nossa empresa 3">
+                    <img src="<?php echo esc_url(get_template_directory_uri() . '/dist/images/about/about-3-delivery-560.webp'); ?>"
+                         srcset="<?php echo esc_attr(roof_webp_srcset('about/about-3-delivery', [384, 464, 560, 736, 900])); ?>"
+                         sizes="(max-width: 768px) calc(100vw - 40px), 456px"
+                         width="900" height="675" loading="lazy" decoding="async" alt="Sobre nossa empresa 3">
                 </div>
             </div>
         </div>
@@ -93,11 +101,11 @@
 
     <section class="services bg-dark" aria-label="Serviços">
         <div class="container">
-            <h3 class="subtitle-default light animate-fade-in-left">O que nós fazemos</h3>
+            <p class="subtitle-default light animate-fade-in-left">O que nós fazemos</p>
             <h2 class="title-default light animate-fade-in-left">Nós oferecemos qualidade em nossos serviços</h2>
             <ul class="services-list">
                 <li class="item animate-fade-in">
-                    <h4>Construção de telhados</h4>
+                    <h3>Construção de telhados</h3>
                     <p>Construímos telhados duráveis e sob medida para casas e comércios em Brasília. Usamos materiais de qualidade, com agilidade, segurança e preço justo.</p>
                     <div class="item-icon">
                         <i class="flaticon-roof-4"></i>
@@ -105,7 +113,7 @@
                     </div>
                 </li>
                 <li class="item animate-fade-in">
-                    <h4>Troca de telhado</h4>
+                    <h3>Troca de telhado</h3>
                     <p>Trocamos telhados antigos ou danificados com rapidez, segurança e mínimo transtorno. Ideal para imóveis residenciais e comerciais em toda Brasília.</p>
                     <div class="item-icon">
                         <i class="flaticon-home"></i>
@@ -113,7 +121,7 @@
                     </div>
                 </li>
                 <li class="item animate-fade-in">
-                    <h4>Manutenção preventiva</h4>
+                    <h3>Manutenção preventiva</h3>
                     <p>Cuidamos do seu telhado antes que o problema apareça. Nossa manutenção preventiva protege seu imóvel, evita custos maiores e aumenta a durabilidade da estrutura.</p>
                     <div class="item-icon">
                         <i class="flaticon-roof-5"></i>
@@ -121,7 +129,7 @@
                     </div>
                 </li>
                 <li class="item animate-fade-in">
-                    <h4>Telhados residenciais e comerciais</h4>
+                    <h3>Telhados residenciais e comerciais</h3>
                     <p>Seja para sua casa ou empresa, entregamos telhados prontos para resistir ao tempo, evitar vazamentos e valorizar seu imóvel com eficiência e bom atendimento.</p>
                     <div class="item-icon">
                         <i class="flaticon-roof-2"></i>
@@ -129,7 +137,7 @@
                     </div>
                 </li>
                 <li class="item animate-fade-in">
-                    <h4>Instalação de calhas e rufos</h4>
+                    <h3>Instalação de calhas e rufos</h3>
                     <p>Garantimos instalação correta de calhas e rufos, com materiais de qualidade e ótimo acabamento. Proteção eficiente contra chuva e vazamentos.</p>
                     <div class="item-icon">
                         <i class="flaticon-roof-6"></i>
@@ -137,7 +145,7 @@
                     </div>
                 </li>
                 <li class="item animate-fade-in">
-                    <h4>Remoção de goteiras e vazamento de telhados</h4>
+                    <h3>Remoção de goteiras e vazamento de telhados</h3>
                     <p>Identificamos a origem do vazamento e resolvemos o problema na raiz. Garantia de serviço bem-feito e telhado protegido contra novas infiltrações.</p>
                     <div class="item-icon">
                         <i class="flaticon-roof-6"></i>
@@ -155,15 +163,21 @@
     <section class="reason" aria-label="Por que escolher a Divinos Telhados?">
         <div class="container">
             <div class="image-wrapper">
-                <img src="<?php echo get_template_directory_uri(); ?>/dist/images/reason.webp" width="1000" height="750" alt="Porque escolher a Divinos Telhados?">
+                <img src="<?php echo esc_url(get_template_directory_uri() . '/dist/images/reason-delivery-656.webp'); ?>"
+                     srcset="<?php echo esc_attr(roof_webp_srcset('reason-delivery', [360, 520, 656, 704, 1000])); ?>"
+                     sizes="(max-width: 768px) calc(100vw - 80px), (max-width: 1200px) calc((100vw - 40px) * 5 / 9), 656px"
+                     width="1000" height="750" loading="lazy" decoding="async" alt="Porque escolher a Divinos Telhados?">
             </div>
             <div class="content">
                 <div class="card">
-                    <h3 class="subtitle-default dark animate-fade-in-left">Por que escolher a Divinos Telhados?</h3>
+                    <p class="subtitle-default dark animate-fade-in-left">Por que escolher a Divinos Telhados?</p>
                     <h2 class="title-default dark animate-fade-in-left">Nós oferecemos qualidade em nossos serviços</h2>
                     <p class="animate-fade-in">Escolher a Divinos Telhados é garantir um serviço bem-feito, com materiais de qualidade, atendimento ágil e soluções duradouras. Atendemos Brasília com eficiência, sempre com foco na qualidade e na segurança do seu imóvel.</p>
                     <div class="image-wrapper animate-fade-in-right">
-                        <img src="<?php echo get_template_directory_uri(); ?>/dist/images/reason.webp" width="1000" height="750" alt="Porque escolher a Divinos Telhados?">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/dist/images/reason-delivery-656.webp'); ?>"
+                             srcset="<?php echo esc_attr(roof_webp_srcset('reason-delivery', [360, 520, 656, 704, 1000])); ?>"
+                             sizes="(max-width: 768px) calc(100vw - 80px), (max-width: 1200px) calc((100vw - 40px) * 5 / 9), 656px"
+                             width="1000" height="750" loading="lazy" decoding="async" alt="Porque escolher a Divinos Telhados?">
                     </div>
                     <ul>
                         <li class="animate-fade-in"><i class="fas fa-check"></i> Atendimento rápido e personalizado</li>
@@ -185,47 +199,49 @@
 
     <section class="statistics" aria-label="Estatísticas">
         <div class="container">
-            <h3 class="subtitle-default dark animate-fade-in-left">Números que falam por nós</h3>
+            <p class="subtitle-default dark animate-fade-in-left">Números que falam por nós</p>
             <h2 class="title-default dark animate-fade-in-left">Estamos empenhados em oferecer serviços de qualidade.</h2>
             <ul class="statistics-list">
                 <li class="item animate-fade-in">
                     <i class="flaticon-roof-4"></i>
-                    <h3>
+                    <div class="statistics-value">
                         <span class="counter" data-num="225" data-init="100" data-time="4000">225</span>
                         <span class="sufix">+</span>
-                    </h3>
+                    </div>
                     <p>Projetos concluídos</p>
                 </li>
                 <li class="item animate-fade-in">
                     <i class="flaticon-chill"></i>
-                    <h3>
+                    <div class="statistics-value">
                         <span class="counter" data-num="170" data-init="100" data-time="4000">170</span>
                         <span class="sufix">+</span>
-                    </h3>
+                    </div>
                     <p>Clientes satisfeitos</p>
                 </li>
                 <li class="item animate-fade-in">
                     <i class="flaticon-roof-6"></i>
-                    <h3>
+                    <div class="statistics-value">
                         <span class="counter" data-num="25" data-init="10" data-time="4000">25</span>
                         <span class="sufix">+</span>
-                    </h3>
+                    </div>
                     <p>Anos de experiência</p>
                 </li>
                 <li class="item animate-fade-in">
                     <i class="flaticon-roof-3"></i>
-                    <h3>
+                    <div class="statistics-value">
                         <span class="counter" data-num="10" data-init="1" data-time="2000">10</span>
                         <span class="sufix">+</span>
-                    </h3>
+                    </div>
                     <p>Trabalhadores</p>
                 </li>
+            </ul>
+        </div>
     </section>
 
     <section class="contact" aria-label="Contato">
         <div class="container">
             <div class="content">
-                <h3 class="subtitle-default dark animate-fade-in-left">Avaliações</h3>
+                <p class="subtitle-default dark animate-fade-in-left">Avaliações</p>
                 <h2 class="title-default dark animate-fade-in-left">O que dizem sobre nós?</h2>
                 <div class="swiper-container animate-fade-in">
                     <div class="swiper">
@@ -277,7 +293,7 @@
                 </div>
             </div>
             <div class="form-content">
-                <h3 class="subtitle-default light animate-fade-in">Entre em contato</h3>
+                <p class="subtitle-default light animate-fade-in">Entre em contato</p>
                 <h2 class="title-default light animate-fade-in">Tire suas dúvidas</h2>
 
                 <?php echo do_shortcode('[contact-form-7 id="f0e8534" title="Contato"]'); ?>
@@ -315,13 +331,14 @@
 
         $query = new WP_Query([
             'post_type'      => 'post',
-            'posts_per_page' => 3
+            'posts_per_page' => 3,
+            'no_found_rows'  => true,
         ]);
 
         if ($query->have_posts()) { ?>
             <section class="blog" aria-label="Nosso ultimos posts do blog">
                 <div class="container">
-                    <h3>Quais são as novidades</h3>
+                    <p class="blog-subtitle">Quais são as novidades</p>
                     <h2>Nossas últimas notícias</h2>
                     <ul class="blog-list">
                         <?php while ($query->have_posts()){ 
@@ -331,9 +348,8 @@
                                     <div class="image-wrapper">
                                         <?php
                                             echo wp_get_attachment_image(get_post_thumbnail_id(), 'medium_large', false, [
-                                                'loading' => 'eager',
+                                                'loading' => 'lazy',
                                                 'sizes' => '(max-width: 600px) 100vw, 400px',
-                                                'fetchpriority' => 'high',
                                             ]);
                                         ?>
                                     </div>
@@ -343,7 +359,7 @@
                                         <i class="fas fa-calendar-alt"></i>
                                         <?php echo date_i18n('j \d\e F, Y', strtotime(get_the_date('Y-m-d'))) ?>
                                     </span>
-                                    <h4><?php the_title(); ?></h4>
+                                    <h3><?php the_title(); ?></h3>
                                     <p><?php the_excerpt(); ?></p>
                                     <a href="<?php the_permalink(); ?>" class="blog-link">Leia mais</a>
                                 </div>
@@ -357,37 +373,17 @@
                     </a>
                 </div>
             </section>
-        <?php } ?>            
-</main>
+        <?php } ?>
 
-<script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Divinos Telhados",
-        "description": "Especialistas em construção, reforma e manutenção de telhados residenciais e comerciais. Mais de 25 anos de experiência em Brasília.",
-        "url": "https://www.divinostelhados.com.br",
-        "areaServed": {
-            "@type": "Place",
-            "name": "Brasília, DF"
-        },
-        "serviceType": [
-            "Construção de telhados",
-            "Troca de telhado",
-            "Manutenção preventiva",
-            "Instalação de calhas e rufos",
-            "Remoção de goteiras",
-            "Telhados residenciais",
-            "Telhados comerciais"
-        ],
-        "telephone": "+5561999963646",
-        "hasMap": "https://maps.app.goo.gl/8nRruRkGnu8kbZY86",
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "5.0",
-            "reviewCount": "21"
-        }
-    }
-</script>   
+        <?php if (shortcode_exists('insta-gallery')) { ?>
+            <section class="reels" aria-labelledby="instagram-title">
+                <div class="container">
+                    <p class="subtitle-default dark">Instagram</p>
+                    <h2 class="title-default dark" id="instagram-title">Acompanhe nossas obras</h2>
+                    <?php echo do_shortcode('[insta-gallery id="0"]'); ?>
+                </div>
+            </section>
+        <?php } ?>
+    </main>
 
 <?php get_footer(); ?>

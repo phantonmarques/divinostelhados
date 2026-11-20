@@ -20,10 +20,10 @@
     <input type="text" id="search" class="animate-fade-in-up" placeholder="Pesquisar..." />
   </section>
 
-  <article id="posts-container" class="container"></article>
+  <article id="posts-container" class="container" data-posts-url="<?php echo esc_url(rest_url('wp/v2/posts')); ?>"></article>
   <div id="loading" style="display:none;">Carregando...</div>
 </main>
 
-<script src="<?php echo get_template_directory_uri(); ?>/dist/js/blog.min.js" defer></script>
+<script src="<?php echo esc_url(get_template_directory_uri() . '/dist/js/blog.min.js?ver=' . filemtime(get_template_directory() . '/dist/js/blog.min.js')); ?>" defer></script>
 
 <?php get_footer(); ?>

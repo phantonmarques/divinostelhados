@@ -12,7 +12,8 @@
 
 /** Buttons Default */
 
-.btn-default {
+.btn-default,
+.reels .instagram-gallery-feed .instagram-gallery__button--follow {
 	background-image: linear-gradient(
 		180deg,
 		var(--color-primary-1) 0%,
@@ -31,7 +32,8 @@
 	transition: all 0.3s ease-in-out;
 }
 
-.btn-default:hover {
+.btn-default:hover,
+.reels .instagram-gallery-feed .instagram-gallery__button--follow:hover {
 	background-image: linear-gradient(
 		180deg,
 		color-mix(in srgb, var(--color-primary-1) 80%, var(--color-secondary-1)) 0%,
@@ -285,6 +287,7 @@
 	font-size: 12px;
 	margin: 12px 0;
 	text-align: center;
+	opacity: 0.6;
 }
 
 .recaptcha-message a {
@@ -422,7 +425,8 @@
 
 	/** Buttons Default */
 
-	.btn-default {
+	.btn-default,
+	.reels .instagram-gallery-feed .instagram-gallery__button--follow {
 		font-size: 0.75rem;
 		padding: 12px 20px;
 	}

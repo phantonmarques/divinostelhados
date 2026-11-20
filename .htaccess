@@ -1,7 +1,60 @@
-# Define index.html como o arquivo padrão
-DirectoryIndex index.html
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^divinostelhados\.com$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.divinostelhados\.com$
+RewriteRule ^/?$ "https\:\/\/www\.divinostelhados\.com\.br" [R=301,L]
+# BEGIN ShortPixelWebp
+# As diretrizes (linhas) entre "BEGIN ShortPixelWebp" e "END ShortPixelWebp" são
+# geradas dinamicamente e só devem ser modificadas através de filtros do WordPress.
+# Quaisquer alterações nas diretivas entre esses marcadores serão sobrescritas.
 
-# Redireciona URLs que terminam com index.html para a raiz do domínio
+# END ShortPixelWebp
+# BEGIN WordPress
+# As diretrizes (linhas) entre "BEGIN WordPress" e "END WordPress" são
+# geradas dinamicamente e só devem ser modificadas através de filtros do WordPress.
+# Quaisquer alterações nas diretivas entre esses marcadores serão sobrescritas.
+Options -Indexes
+<IfModule mod_headers.c>
+	Header set X-Endurance-Cache-Level "2"
+	Header set X-nginx-cache "WordPress"
+</IfModule>
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+	RewriteRule ^/wp-content/endurance-page-cache/ - [L]
+	RewriteCond %{REQUEST_METHOD} !POST
+	RewriteCond %{QUERY_STRING} !.*=.*
+	RewriteCond %{HTTP_COOKIE} !(wordpress_test_cookie|comment_author|wp\-postpass|wordpress_logged_in|wptouch_switch_toggle|wp_woocommerce_session_) [NC]
+	RewriteCond %{DOCUMENT_ROOT}/wp-content/endurance-page-cache/$1/_index.html -f
+	RewriteRule ^(.*)$ /wp-content/endurance-page-cache/$1/_index.html [L]
+</IfModule>
+<IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteCond %{THE_REQUEST} /index\.html [NC]
-RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+# END WordPress
+# BEGIN ShortPixel Adaptive Images
+# As diretrizes (linhas) entre "BEGIN ShortPixel Adaptive Images" e "END ShortPixel Adaptive Images" são
+# geradas dinamicamente e só devem ser modificadas através de filtros do WordPress.
+# Quaisquer alterações nas diretivas entre esses marcadores serão sobrescritas.
+
+# END ShortPixel Adaptive Images
+
+# Cache do navegador para arquivos estáticos públicos do WordPress.
+<IfModule mod_headers.c>
+    <FilesMatch "\.(?i:css|js|woff2?|webp|avif|png|jpe?g|gif|svg|ico)$">
+        Header setifempty Cache-Control "public, max-age=2592000" "expr=%{REQUEST_URI} =~ m#^/(?:wp-content/(?:themes/roof/dist|plugins)|wp-includes)/# && -f %{REQUEST_FILENAME}"
+    </FilesMatch>
+</IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Defina o pacote “ea-php82” como a linguagem padrão de programação “PHP”.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php82___lsphp .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

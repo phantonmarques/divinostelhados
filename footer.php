@@ -11,7 +11,9 @@
         <div class="container">
             <div class="footer-social">
                 <a class="logo animate-fade-in-left" href="/" aria-label="Logo rodapé">
-                    <img src="<?php echo get_template_directory_uri(); ?>/dist/images/logo.svg" width="200" height="50" alt="Divinos Telhados - Especialista em Investimentos">
+                    <img src="<?php echo esc_url(get_template_directory_uri() . '/dist/images/logo-delivery-120.webp'); ?>"
+                         srcset="<?php echo esc_attr(roof_webp_srcset('logo-delivery', [120, 168, 200, 240, 360])); ?>"
+                         sizes="110px" width="600" height="600" loading="lazy" decoding="async" alt="Divinos Telhados - Especialista em Investimentos">
                 </a>
                 <a class="whatsapp animate-fade-in" rel="noopener noreferrer" target="_blank" href="https://wa.me/5561999963646">
                     <i class="fab fa-whatsapp icon"></i>
@@ -33,7 +35,7 @@
             </div>
             <div class="footer-info">
                 <div class="footer-contact animate-fade-in-left">
-                    <h3>Contato</h3>
+                    <h2>Contato</h2>
                     <ul>
                         <li>
                             <a href="mailto:centralvilela@gmail.com" aria-label="Entre em contato por e-mail">
@@ -78,7 +80,7 @@
 
                         if (!empty($menuItems) && count($menuItems) > 0) { ?>
                             <div class="footer-services animate-fade-in">
-                                <h3>Serviços</h3>
+                                <h2>Serviços</h2>
                                 <?php 
                                     wp_nav_menu([
                                         'theme_location' => $location,
@@ -92,12 +94,12 @@
                 ?>
                 
                 <div class="footer-flags animate-fade-in-right">
-                    <h3>Meios de pagamento</h3>
+                    <h2>Meios de pagamento</h2>
                     <ul>
-                        <li><img src="<?php echo get_template_directory_uri(); ?>/dist/images/flags/visa.webp" width="50" height="30" alt="Visa"></li>
-                        <li><img src="<?php echo get_template_directory_uri(); ?>/dist/images/flags/master.webp" width="50" height="30" alt="Mastercard"></li>
-                        <li><img src="<?php echo get_template_directory_uri(); ?>/dist/images/flags/elo.webp" width="50" height="30" alt="Elo"></li>
-                        <li><img src="<?php echo get_template_directory_uri(); ?>/dist/images/flags/pix.webp" width="50" height="30" alt="Pix"></li>
+                        <li><img src="<?php echo get_template_directory_uri(); ?>/dist/images/flags/visa.webp" width="50" height="31" loading="lazy" decoding="async" alt="Visa"></li>
+                        <li><img src="<?php echo get_template_directory_uri(); ?>/dist/images/flags/master.webp" width="50" height="31" loading="lazy" decoding="async" alt="Mastercard"></li>
+                        <li><img src="<?php echo get_template_directory_uri(); ?>/dist/images/flags/elo.webp" width="50" height="31" loading="lazy" decoding="async" alt="Elo"></li>
+                        <li><img src="<?php echo get_template_directory_uri(); ?>/dist/images/flags/pix.webp" width="50" height="31" loading="lazy" decoding="async" alt="Pix"></li>
                     </ul>
                 </div>
             </div>
@@ -109,7 +111,7 @@
             <div class="container">
                 <p class="animate-fade-in-left">Todos os direitos reservados © 2024 Divinos Telhados.</p>
                 <a class="logo-dev animate-fade-in-right" href="https://damcdeveloper.com" rel="noopener noreferrer" target="_blank">
-                    <img src="<?php echo get_template_directory_uri(); ?>/dist/images/damc.webp" width="156" height="40" alt="Desenvolvido por Daniel Alexander Marques Cabredo">
+                    <img src="<?php echo get_template_directory_uri(); ?>/dist/images/damc.webp" width="156" height="40" loading="lazy" decoding="async" alt="Desenvolvido por Daniel Alexander Marques Cabredo">
                 </a>
             </div>
         </div>
